@@ -31,34 +31,19 @@ public class NewBehaviourScript : MonoBehaviour
         ConsoleHelper.SetConsoleCodePage();
         ConsoleHelper.RedirectStandardStreams();
         Console.OutputEncoding = Encoding.UTF8;
-        Console.Title = "maibot Logger";
+        Console.Title = "MaiKiroku Logger";
         Console.WriteLine();
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("------------------------------------------------------------------------");
-        Console.WriteLine("|          ____                                                        |");
-        Console.WriteLine("|        ,'  , `.                         ,---,.               ___     |");
-        Console.WriteLine("|     ,-+-,.' _ |              ,--,     ,'  .'  \\            ,--.'|_   |");
-        Console.WriteLine("|  ,-+-. ;   , ||            ,--.'|   ,---.' .' |   ,---.    |  | :,'  |");
-        Console.WriteLine("| ,--.'|'   |  ;|            |  |,    |   |  |: |  '   ,'\\   :  : ' :  |");
-        Console.WriteLine("||   |  ,', |  ':  ,--.--.   `--'_    :   :  :  / /   /   |.;__,'  /   |");
-        Console.WriteLine("||   | /  | |  || /       \\  ,' ,'|   :   |    ; .   ; ,. :|  |   |    |");
-        Console.WriteLine("|'   | :  | :  |,.--.  .-. | '  | |   |   :     \'   | |: ::__,'| :     |");
-        Console.WriteLine("|;   . |  ; |--'  \\__\\/: . . |  | :   |   |   . |'   | .; :  '  : |__  |");
-        Console.WriteLine("||   : |  | ,     ,\" .--.; | '  : |__ '   :  '; ||   :    |  |  | '.'| |");
-        Console.WriteLine("||   : '  |/     /  /  ,.  | |  | '.'||   |  | ;  \\   \\  /   ;  :    ; |");
-        Console.WriteLine("|;   | |`-'     ;  :   .'   \\;  :    ;|   :   /    `----'    |  ,   /  |");
-        Console.WriteLine("||   ;/         |  ,     .-./|  ,   / |   | ,'                ---`-'   |");
-        Console.WriteLine("|'---'           `--`---'     ---`-'  `----'                           |");
-        Console.WriteLine("|                                                                      |");
         Console.WriteLine("------------------------------------------------------------------------");
+        Console.WriteLine();
         Console.ResetColor();
 
 #endif
-        Logger.Debug("Application has started.");
+        Logger.Debug("MaiKiroku has started.");
         Screen.SetResolution(1080, 2400, false);
         Application.targetFrameRate = 60;
-       
         Logger.Info("Current Resolution: " + Screen.currentResolution.width + "x" + Screen.currentResolution.height);
 
      }
