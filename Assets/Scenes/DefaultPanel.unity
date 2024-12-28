@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 1994055922}
   - component: {fileID: 1994055921}
   m_Layer: 5
-  m_Name: Rating
+  m_Name: RatingBanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

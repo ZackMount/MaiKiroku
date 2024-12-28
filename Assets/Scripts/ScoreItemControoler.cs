@@ -11,6 +11,7 @@ public class ScoreItemControoler : MonoBehaviour
     public Image Achievements2;
     public Image Rank;
     public Image Cover;
+    public Image InfoiconMode;
 
     [Header("Text")]
     public TextMeshProUGUI SongName;
@@ -30,14 +31,28 @@ public class ScoreItemControoler : MonoBehaviour
     public GameObject Star1;
 
     [Header("Panel")]
-    ///0 = BSC, 1 = ADV, 2 = EXP, 3 = MST, 4 = RE
+
+
+    /// <summary>
+    /// 0 = BSC, 1 = ADV, 2 = EXP, 3 = MST, 4 = RE
+    /// </summary>
     public Sprite[] PanelBackgroundImages;
-    ///0 = FC, 1 = FCP, 2 = AP, 3 = APP
+    /// <summary>
+    /// 0 = FC, 1 = FCP, 2 = AP, 3 = APP
+    /// </summary>
     public Sprite[] PanelAchievements1;
-    ///0 = SP, 1 = FS, 2 = FSP, 3 = FDX, 4 = FDXP
+    /// <summary>
+    /// 0 = SP, 1 = FS, 2 = FSP, 3 = FDX, 4 = FDXP
+    /// </summary>
     public Sprite[] PanelAchievements2;
-    ///0 = D, 1 = C, 2 = B, 3 = BB, 4 = BBB, 5 = A, 6 = AA, 7 = AAA, 8 = S, 9 = SP, 10 = SS, 11 = SSP, 12 = SSS, 13 = SSSP
+    /// <summary>
+    /// 0 = D, 1 = C, 2 = B, 3 = BB, 4 = BBB, 5 = A, 6 = AA, 7 = AAA, 8 = S, 9 = SP, 10 = SS, 11 = SSP, 12 = SSS, 13 = SSSP
+    /// </summary>
     public Sprite[] PanelRank;
+    /// <summary>
+    /// 0 = Standard, 1 = Deluxe
+    /// </summary>
+    public Sprite[] PanelInfoiconMode;
 
     void Start()
     {
