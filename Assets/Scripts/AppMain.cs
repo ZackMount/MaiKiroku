@@ -1,13 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using Unity.VisualScripting;
+﻿using System;
 using UnityEngine;
+using Assets.Scripts.Constants;
+using System.Text;
 
-public class NewBehaviourScript : MonoBehaviour
+public class AppMain : MonoBehaviour
 {
     // Start is called before the first frame update
     private bool consoleAllocated = false;
@@ -27,27 +23,21 @@ public class NewBehaviourScript : MonoBehaviour
                 }
             }
         }
-
         ConsoleHelper.SetConsoleCodePage();
         ConsoleHelper.RedirectStandardStreams();
         Console.OutputEncoding = Encoding.UTF8;
-        Console.Title = "MaiKiroku Logger";
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("------------------------------------------------------------------------");
-        Console.WriteLine("------------------------------------------------------------------------");
-        Console.WriteLine();
-        Console.ResetColor();
 
+        ShowInfo();
 #endif
-        Logger.Debug("MaiKiroku has started.");
+        Logger.Info($"MaiKiroku {ApplicationConstants.version} has started.");
         Screen.SetResolution(1080, 2400, false);
         Application.targetFrameRate = 60;
-        Logger.Info("Current Resolution: " + Screen.currentResolution.width + "x" + Screen.currentResolution.height);
-
-     }
-
+        
+    }
+    void ShowInfo()
+    {
+        Console.Title = "MaiKiroku Logger";
+    }
     void Update()
     {
 

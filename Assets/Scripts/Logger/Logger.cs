@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Assets.Scripts.Constants;
 using UnityEngine;
 
 
@@ -29,7 +29,7 @@ public sealed class Logger : IDisposable
 
     private Logger()
     {
-        var logDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+        var logDirectory = Path.Combine(ApplicationConstants.baseMenu, "logs");
         Directory.CreateDirectory(logDirectory);
         _logFilePath = Path.Combine(logDirectory, $"application_{DateTime.UtcNow:yyyyMMdd}.log");
 
@@ -401,7 +401,7 @@ public sealed class Logger : IDisposable
     private Logger()
     {
         // 与 ConsoleHelper 的日志文件路径保持一致
-        _logFilePath = Path.Combine(Application.persistentDataPath, "unity_console.log");
+        _logFilePath = Path.Combine(ApplicationConstants.baseMenu, "unity_console.log");
 
         // 确保日志文件存在
         Directory.CreateDirectory(Path.GetDirectoryName(_logFilePath));
@@ -741,6 +741,8 @@ public sealed class Logger : IDisposable
     }
 
 #else
+    private static readonly Lazy<Logger> _instance = new Lazy<Logger>(() => new Logger());
+    public static Logger Instance => _instance.Value;
     public static void Debug(string message,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string filePath = "",

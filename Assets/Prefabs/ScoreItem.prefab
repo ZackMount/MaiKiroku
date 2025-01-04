@@ -109,8 +109,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 31.956, y: 52.187233}
-  m_SizeDelta: {x: 1112.7, y: 219.568}
+  m_AnchoredPosition: {x: 32.795, y: 52.187233}
+  m_SizeDelta: {x: 1095.9, y: 219.568}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1458355487360238220
 CanvasRenderer:
@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 8894178018705856057}
   - component: {fileID: 6079751586984279598}
   m_Layer: 5
-  m_Name: Achievement2
+  m_Name: FS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -430,8 +430,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -53.791, y: 52.187}
-  m_SizeDelta: {x: 45.5813, y: 14.814}
+  m_AnchoredPosition: {x: -56.8851, y: 51.181}
+  m_SizeDelta: {x: 51.7693, y: 16.825}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3971297785533595447
 CanvasRenderer:
@@ -1273,7 +1273,7 @@ GameObject:
   - component: {fileID: 3381181232478520979}
   - component: {fileID: 7518471254919245350}
   m_Layer: 5
-  m_Name: Acc
+  m_Name: Achievements
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1698,16 +1698,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Panel: {fileID: 4781352700365137281}
-  Achievements1: {fileID: 1319483228016503205}
-  Achievements2: {fileID: 6079751586984279598}
+  FC: {fileID: 1319483228016503205}
+  FS: {fileID: 6079751586984279598}
   Rank: {fileID: 9143437444446124470}
   Cover: {fileID: 8094838904530666103}
   InfoiconMode: {fileID: 3060986440618660006}
   SongName: {fileID: 8511206356260859433}
   RankInB50: {fileID: 7230140008198760068}
-  ID: {fileID: 4235199048118311026}
+  SongID: {fileID: 4235199048118311026}
   DXScore: {fileID: 3538560500718139214}
-  Acc: {fileID: 7518471254919245350}
+  Achievements: {fileID: 7518471254919245350}
   Level: {fileID: 5197212319212569027}
   Rating: {fileID: 5037122390701015784}
   Star5: {fileID: 3818227965778502669}
@@ -1715,24 +1715,27 @@ MonoBehaviour:
   Star3: {fileID: 8627597916082870921}
   Star2: {fileID: 8602282143557249381}
   Star1: {fileID: 2591690740299303053}
-  PanelBackgroundImages:
+  PanelBackgroundSprites:
   - {fileID: 21300000, guid: 14b9eb700091d9a4286c074f038a7881, type: 3}
   - {fileID: 21300000, guid: 83d3a7e3774199242ab662936c51f85e, type: 3}
   - {fileID: 21300000, guid: 2a6a9827929321b43b19ce049503218c, type: 3}
   - {fileID: 21300000, guid: bc9f7105fd7913e4e814c963ad6ea563, type: 3}
   - {fileID: 21300000, guid: 46fc2dde8962de9499ec59122f03dbf3, type: 3}
-  PanelAchievements1:
+  PanelFCSprites:
+  - {fileID: 21300000, guid: 49f62bab10e08fb40b15976ca4a0ff08, type: 3}
   - {fileID: 21300000, guid: 6f14b705d43c34340a920ea22c35db01, type: 3}
   - {fileID: 21300000, guid: f6be9ab544201504eb061442af9477d2, type: 3}
   - {fileID: 21300000, guid: 31c60eceadd97f545aa6261012d9a616, type: 3}
   - {fileID: 21300000, guid: 03b3f204a5a069c488a5888c396667f9, type: 3}
-  PanelAchievements2:
+  PanelFSSprites:
+  - {fileID: 21300000, guid: 49f62bab10e08fb40b15976ca4a0ff08, type: 3}
   - {fileID: -2321949425251967704, guid: cb1108c375f0eaf43b4a75ee89da6f10, type: 3}
   - {fileID: 21300000, guid: e40cfdf1c7d3ddc4c8cc38a6702409b2, type: 3}
   - {fileID: 21300000, guid: fe3edadf2c08f324aafbdd152f2dc413, type: 3}
   - {fileID: 21300000, guid: a9092f0217c4313478b14dbf90481ad1, type: 3}
   - {fileID: 21300000, guid: f632f6a96edb48647a4adce76c7772b6, type: 3}
-  PanelRank:
+  - {fileID: 21300000, guid: f632f6a96edb48647a4adce76c7772b6, type: 3}
+  PanelRankSprites:
   - {fileID: 21300000, guid: 02c59f5fc73321e40a147615fa167b9b, type: 3}
   - {fileID: 21300000, guid: 2c286be149d2f7144a20aeab0ad91019, type: 3}
   - {fileID: 21300000, guid: e8f23803a486472488fa0fec8499bfac, type: 3}
@@ -1747,7 +1750,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5834a6d22cac03b4791e8e382162b0c5, type: 3}
   - {fileID: 21300000, guid: d5e8a04f466309c469505734e5df9071, type: 3}
   - {fileID: 21300000, guid: 3a03fd9180cbb0b4dae2e0cf9733a15c, type: 3}
-  PanelInfoiconMode:
+  PanelInfoiconModeSprites:
   - {fileID: 21300000, guid: dfefd27686b518743a97d8ea078619b5, type: 3}
   - {fileID: 21300000, guid: 178ebfc08c5bc084d97bebe086060671, type: 3}
 --- !u!1 &6039652822477931722
@@ -2123,7 +2126,7 @@ GameObject:
   - component: {fileID: 7031971131192921706}
   - component: {fileID: 1319483228016503205}
   m_Layer: 5
-  m_Name: Achievement1
+  m_Name: FC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2626,7 +2629,7 @@ GameObject:
   - component: {fileID: 4103027761850905508}
   - component: {fileID: 4235199048118311026}
   m_Layer: 5
-  m_Name: ID
+  m_Name: SongID
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
