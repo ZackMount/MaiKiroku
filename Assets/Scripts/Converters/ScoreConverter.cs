@@ -43,7 +43,7 @@ namespace Assets.Scripts.Converters
         /// </summary>
         /// <param name="lxnsScore">Lxns 的 Score 对象</param>
         /// <returns>统一的 Score 对象</returns>
-        public static Score ConvertScoreAsync(Api.Lxns.Models.Score lxnsScore, int _rank)
+        public static Score ConvertScoreAsync(Api.Lxns.Models.Score lxnsScore,Api.Lxns.Models.Song lxnsSong, int _rank)
         {
             if (lxnsScore == null)
             {
@@ -70,6 +70,19 @@ namespace Assets.Scripts.Converters
 
             unifiedScore.cover_path  = DownloadSongJacketAsync(unifiedScore.song_id);
 
+            unifiedScore.notes_total = unifiedScore.type switch
+            {
+                SongType.standard => lxnsSong.difficulties.standard[lxnsScore.level_index].notes.total,
+                SongType.dx => lxnsSong.difficulties.dx[lxnsScore.level_index].notes.total,
+                _ => throw new NotImplementedException(),
+            };
+
+            unifiedScore.level_details = unifiedScore.type switch 
+            {
+                SongType.standard => lxnsSong.difficulties.standard[lxnsScore.level_index].level_value.ToString("F1"),
+                SongType.dx => lxnsSong.difficulties.dx[lxnsScore.level_index].level_value.ToString("F1"),
+                _ => throw new NotImplementedException(),
+            };
             return unifiedScore;
             
 
@@ -78,15 +91,14 @@ namespace Assets.Scripts.Converters
         public static string DownloadSongJacketAsync(int songId)
         {
             string url = $"https://assets2.lxns.net/maimai/jacket/{songId}.png";
-
-            string relativePath = Path.Combine("textures", $"{songId}.png");
-            string savePath = Path.Combine(ApplicationConstants.baseMenu, relativePath);
+            string savePath = Path.Combine(ApplicationConstants.JacketPath, $"{songId}.png");
 
             if (File.Exists(savePath))
             {
-                return relativePath;
+                return savePath;
             }
 
+            
             try
             {
                 HttpClient client = new();
@@ -97,8 +109,8 @@ namespace Assets.Scripts.Converters
                     Directory.CreateDirectory(directory);
                 }
                 File.WriteAllBytes(savePath, imageData);
-
-                return relativePath;
+                Logger.Info($"Cover {songId} not exists and downloaded successfully.");
+                return savePath;
             }
             catch (HttpRequestException e)
             {
@@ -111,6 +123,7 @@ namespace Assets.Scripts.Converters
 
             return Path.Combine("textures", "default.png");
         }
+
         private static LevelIndex ParseLevelIndex(int levelIndex)
         {
             return levelIndex switch

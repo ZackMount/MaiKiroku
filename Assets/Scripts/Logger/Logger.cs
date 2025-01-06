@@ -29,7 +29,7 @@ public sealed class Logger : IDisposable
 
     private Logger()
     {
-        var logDirectory = Path.Combine(ApplicationConstants.baseMenu, "logs");
+        var logDirectory = Path.Combine(Environment.CurrentDirectory, "logs");
         Directory.CreateDirectory(logDirectory);
         _logFilePath = Path.Combine(logDirectory, $"application_{DateTime.UtcNow:yyyyMMdd}.log");
 
@@ -401,7 +401,7 @@ public sealed class Logger : IDisposable
     private Logger()
     {
         // 与 ConsoleHelper 的日志文件路径保持一致
-        _logFilePath = Path.Combine(ApplicationConstants.baseMenu, "unity_console.log");
+        _logFilePath = Path.Combine(Environment.CurrentDirectory, "unity_console.log");
 
         // 确保日志文件存在
         Directory.CreateDirectory(Path.GetDirectoryName(_logFilePath));

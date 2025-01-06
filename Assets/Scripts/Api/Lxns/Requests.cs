@@ -26,12 +26,12 @@ namespace Assets.Scripts.Api.Lxns
             return apiMessageResult.data;
         }
 
-        public async Task<Best50> GetBest50ByQQAsync(string qq)
+        public async Task<(Best50, Player)> GetBest50ByQQAsync(string qq)
         {
             var player = await GetPlayerByQQAsync(qq);
             var resultContent = await request.GetAsync($"api/v0/maimai/player/{player.friend_code}/bests");
             var apiMessageResult = JsonUtility.FromJson<ApiMessageResult<Best50>>(resultContent);
-            return apiMessageResult.data;
+            return (apiMessageResult.data, player);
         }
         public async Task<Player> GetPlayer(string friend_code)
         {

@@ -15,6 +15,10 @@
         /// </summary>
         public int dx_score;
         /// <summary>
+        /// 当前谱面总物量
+        /// </summary>
+        public int notes_total;
+        /// <summary>
         /// FULL COMBO 类型
         /// </summary>
         public FCType fc;

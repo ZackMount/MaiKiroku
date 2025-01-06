@@ -99,7 +99,7 @@ public static class ConsoleHelper
     }
 
 #elif UNITY_STANDALONE_OSX && !UNITY_EDITOR
- private static string logFilePath = Path.Combine(ApplicationConstants.baseMenu, "unity_console.log");
+ private static string logFilePath = Path.Combine(ApplicationConstants.BasePath, "unity_console.log");
     private static Process tailProcess;
 
     /// <summary>

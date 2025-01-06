@@ -21,7 +21,8 @@ public class ScoreItemController : MonoBehaviour
     public TextMeshProUGUI RankInB50;
     public TextMeshProUGUI SongID;
     public TextMeshProUGUI DXScore;
-    public TextMeshProUGUI Achievements;
+    public TextMeshProUGUI AchievementsInteger;
+    public TextMeshProUGUI AchievementsDecimal;
     public TextMeshProUGUI Level;
     public TextMeshProUGUI Rating;
 
@@ -54,8 +55,7 @@ public class ScoreItemController : MonoBehaviour
     /// </summary>
     public Sprite[] PanelInfoiconModeSprites;
 
-    // ¾²Ì¬»º´æ×Öµä£¬ÓÃÓÚ´æ´¢ÒÑ¼ÓÔØµÄSprite
-    private static Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
+
 
     public void Load(Score score)
     {
@@ -69,8 +69,11 @@ public class ScoreItemController : MonoBehaviour
         SongName.text = score.song_name;
         RankInB50.text = $"#{score.rank}";
         SongID.text = $"ID:{score.song_id}";
-        DXScore.text = $"DX:{score.dx_score}";
-        Achievements.text = $"{score.achievements}%";
+        DXScore.text = $"{score.dx_score}/{(score.notes_total * 3)}";
+
+        string[] achievements = score.achievements.Split('.');
+        AchievementsInteger.text = achievements[0];
+        AchievementsDecimal.text = $".{achievements[1]}%";
         Level.text = $"{score.level_details}¡ú";
         Rating.text = $"{score.dx_rating}";
         Panel.sprite = PanelBackgroundSprites[(int)score.level_index];
@@ -79,10 +82,73 @@ public class ScoreItemController : MonoBehaviour
         FC.sprite = PanelFCSprites[(int)score.fc];
         FS.sprite = PanelFSSprites[(int)score.fs];
 
+        SetDXStar(GetDXStar(score.dx_score, score.notes_total));
 
-        string coverPath = Path.Combine(ApplicationConstants.baseMenu, score.cover_path);
+        string coverPath = Path.Combine(ApplicationConstants.BasePath, score.cover_path);
         LoadCoverImage(coverPath);
     }
+    private int GetDXStar(int dxScore, int noteTotal)
+    {
+        return ((float)dxScore / ((float)noteTotal * 3)) switch
+        {
+            < 0.85f => 0,
+            < 0.90f => 1,
+            < 0.93f => 2,
+            < 0.95f => 3,
+            < 0.97f => 4,
+            _ => 5,
+        };
+    }
+
+    private void SetDXStar(int index)
+    {
+        switch (index) 
+        {
+            case 0:
+                Star1.gameObject.SetActive(false);
+                Star2.gameObject.SetActive(false);
+                Star3.gameObject.SetActive(false);
+                Star4.gameObject.SetActive(false);
+                Star5.gameObject.SetActive(false);
+                break;
+            case 1:
+                Star1.gameObject.SetActive(true);
+                Star2.gameObject.SetActive(false);
+                Star3.gameObject.SetActive(false);
+                Star4.gameObject.SetActive(false);
+                Star5.gameObject.SetActive(false);
+                break;
+            case 2:
+                Star1.gameObject.SetActive(false);
+                Star2.gameObject.SetActive(true);
+                Star3.gameObject.SetActive(false);
+                Star4.gameObject.SetActive(false);
+                Star5.gameObject.SetActive(false);
+                break;
+            case 3:
+                Star1.gameObject.SetActive(false);
+                Star2.gameObject.SetActive(false);
+                Star3.gameObject.SetActive(true);
+                Star4.gameObject.SetActive(false);
+                Star5.gameObject.SetActive(false);
+                break;
+            case 4:
+                Star1.gameObject.SetActive(false);
+                Star2.gameObject.SetActive(false);
+                Star3.gameObject.SetActive(false);
+                Star4.gameObject.SetActive(true);
+                Star5.gameObject.SetActive(false);
+                break;
+            case 5:
+                Star1.gameObject.SetActive(false);
+                Star2.gameObject.SetActive(false);
+                Star3.gameObject.SetActive(false);
+                Star4.gameObject.SetActive(false);
+                Star5.gameObject.SetActive(true);
+                break;
+        }
+    }
+
 
     private void LoadCoverImage(string path)
     {
@@ -92,9 +158,9 @@ public class ScoreItemController : MonoBehaviour
             return;
         }
 
-        if (spriteCache.ContainsKey(path))
+        if (ApplicationConstants.jacketSpriteCache.ContainsKey(path))
         {
-            Cover.sprite = spriteCache[path];
+            Cover.sprite = ApplicationConstants.jacketSpriteCache[path];
             Cover.preserveAspect = false;
             return;
         }
@@ -111,7 +177,7 @@ public class ScoreItemController : MonoBehaviour
                     new Vector2(0.5f, 0.5f)
                 );
 
-                spriteCache[path] = sprite;
+                ApplicationConstants.jacketSpriteCache[path] = sprite;
 
                 Cover.sprite = sprite;
                 Cover.preserveAspect = false;
@@ -127,9 +193,4 @@ public class ScoreItemController : MonoBehaviour
         }
     }
 
-
-    private void OnDestroy()
-    {
-        spriteCache.Clear();
-    }
 }

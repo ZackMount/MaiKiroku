@@ -1,13 +1,14 @@
 ﻿using System;
 using UnityEngine;
 using Assets.Scripts.Constants;
-using System.Text;
+using Assets.Scripts.Api.Lxns.Managers;
+using Assets.Scripts;
 
 public class AppMain : MonoBehaviour
 {
     // Start is called before the first frame update
     private bool consoleAllocated = false;
-
+    private Initializer initializer;
     void Start()
     {
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
@@ -29,10 +30,15 @@ public class AppMain : MonoBehaviour
 
         ShowInfo();
 #endif
-        Logger.Info($"MaiKiroku {ApplicationConstants.version} has started.");
+        // 初始化
+
+        initializer = new Initializer();
+        initializer.InitializeJacketSprites();
+
+        Logger.Info($"MaiKiroku {ApplicationConstants.Version} has started.");
         Screen.SetResolution(1080, 2400, false);
-        Application.targetFrameRate = 60;
-        
+        Application.targetFrameRate = 20;
+        var songManager = SongManager.Instance;
     }
     void ShowInfo()
     {
@@ -45,7 +51,7 @@ public class AppMain : MonoBehaviour
     private void OnDestroy()
     {
 
-
+        ApplicationConstants.jacketSpriteCache.Clear();
         if (consoleAllocated)
         {
 #if UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN
