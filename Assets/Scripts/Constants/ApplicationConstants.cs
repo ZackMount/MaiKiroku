@@ -16,7 +16,7 @@ namespace Assets.Scripts.Constants
         public static string RecordsPath = Path.Combine(BasePath, "records");
         public static string JacketPath = Path.Combine(TexturesPath, "jacket");
 #endif
-        public const string Token = "KTg-C8gZvm0UlUnRtF7WAo4epwKXn_2E3iCvT6VECEI=";
+        public const string Token = "Fill in your token";
         public const string Version = "1.0.0";
         public static Dictionary<string, Sprite> jacketSpriteCache = new Dictionary<string, Sprite>();
     }
