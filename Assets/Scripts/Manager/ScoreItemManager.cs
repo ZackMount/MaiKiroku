@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using Assets.Scripts.Api.Lxns.Models;
 using Assets.Scripts.Api.Lxns.Managers; 
 using Assets.Scripts.Converters;
+using TMPro;
 
 public class ScoreItemManager : MonoBehaviour
 {
     public ScoreItemController prefab;
     private List<ScoreItemController> scoreItemsStandard = new List<ScoreItemController>();
     private List<ScoreItemController> scoreItemsDX = new List<ScoreItemController>();
+
+    public TextMeshProUGUI StandardSummary;
+    public TextMeshProUGUI DXSummary;
+
     void Start()
     {
         Logger.Debug("Initializing Layout.");
@@ -82,6 +87,9 @@ public class ScoreItemManager : MonoBehaviour
             Logger.Error("Best50 data is null. Aborting Load operation.");
             return;
         }
+
+        StandardSummary.text = $"¹²Ó‹£º{best50.standard_total}";
+        DXSummary.text = $"¹²Ó‹£º{best50.dx_total}";
 
         for (int i = 0; i < scoreItemsStandard.Count; i++)
         {

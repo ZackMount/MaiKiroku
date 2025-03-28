@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Api.Lxns.Models;
 using Assets.Scripts.Constants;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -9,31 +10,29 @@ namespace Assets.Scripts
 {
     public class Initializer
     {
-        public void InitializeJacketSprites()
+        public void InitializeSprites(string directoryPath, Dictionary<string, Sprite> spriteCache, string spriteType)
         {
-            string jacketDirectory = ApplicationConstants.JacketPath;
-
-            if (!Directory.Exists(jacketDirectory))
+            if (!Directory.Exists(directoryPath))
             {
-                Logger.Warn($"Jacket directory does not exist: {jacketDirectory}");
+                Logger.Warn($"{spriteType} directory does not exist: {directoryPath}");
                 return;
             }
 
             string[] supportedExtensions = new[] { ".png" };
 
-            string[] imageFiles = Directory.GetFiles(jacketDirectory, "*.png", SearchOption.TopDirectoryOnly)
+            string[] imageFiles = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
                                            .Where(file => supportedExtensions.Contains(Path.GetExtension(file).ToLower()))
                                            .ToArray();
 
             if (imageFiles.Length == 0)
             {
-                Logger.Warn($"No PNG image files found in directory: {jacketDirectory}");
+                Logger.Warn($"No PNG image files found in directory: {directoryPath}");
                 return;
             }
 
             foreach (string filePath in imageFiles)
             {
-                if (ApplicationConstants.jacketSpriteCache.ContainsKey(filePath))
+                if (spriteCache.ContainsKey(filePath))
                 {
                     Logger.Info($"Image already cached, skipping load: {filePath}");
                     continue;
@@ -54,7 +53,7 @@ namespace Assets.Scripts
                                 new Vector2(0.5f, 0.5f)
                             );
 
-                            ApplicationConstants.jacketSpriteCache[filePath] = sprite;
+                            spriteCache[filePath] = sprite;
 
                             Logger.Debug($"Successfully loaded and cached image: {filePath}");
                         }
@@ -74,7 +73,23 @@ namespace Assets.Scripts
                 }
             }
 
-            Logger.Info("Jacket images initialization completed.");
+            Logger.Info($"{spriteType} images initialization completed.");
         }
+
+        public void InitializeJacketSprites()
+        {
+            InitializeSprites(ApplicationConstants.JacketPath, ApplicationConstants.JacketSpriteCache, "Jacket");
+        }
+
+        public void InitializeIconSprites()
+        {
+            InitializeSprites(ApplicationConstants.IconPath, ApplicationConstants.IconSpriteCache, "Icon");
+        }
+
+        public void InitializePlateSprites()
+        {
+            InitializeSprites(ApplicationConstants.PlatePath, ApplicationConstants.PlateSpriteCache, "Plate");
+        }
+
     }
 }

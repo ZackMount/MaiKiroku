@@ -1,30 +1,24 @@
-using System.Collections;
+using System;
 using System.IO;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class RenderingUtility
 {
     /// <summary>
-    /// 捕获指定Canvas画面并保存为JPEG图片。
+    /// 捕获指定Canvas画面并返回JPEG图片的字节数组。
     /// </summary>
     /// <param name="targetCanvas">需要渲染的Canvas。</param>
-    /// <param name="savePath">保存截图的路径。</param>
     /// <param name="canvasWidth">截图的宽度。</param>
     /// <param name="canvasHeight">截图的高度。</param>
     /// <param name="jpgQuality">JPEG压缩质量（1-100）。</param>
-    public static void CaptureCanvasScreenshot(Canvas targetCanvas, string savePath, int canvasWidth = 1080, int canvasHeight = 2400, int jpgQuality = 80)
+    /// <returns>JPEG图片的字节数组。</returns>
+    public static byte[] CaptureCanvasScreenshotSync(Canvas targetCanvas, int canvasWidth = 1080, int canvasHeight = 2400, int jpgQuality = 100)
     {
-        RenderingRunner.Instance.StartCoroutine(CaptureCanvasScreenshotCoroutine(targetCanvas, savePath, canvasWidth, canvasHeight, jpgQuality));
-    }
-
-    private static IEnumerator CaptureCanvasScreenshotCoroutine(Canvas targetCanvas, string savePath, int canvasWidth, int canvasHeight, int jpgQuality)
-    {
-        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-
         if (targetCanvas.renderMode != RenderMode.WorldSpace)
         {
             Logger.Error("The target Canvas render mode must be set to World Space.");
-            yield break;
+            return null;
         }
 
         int canvasLayer = targetCanvas.gameObject.layer;
@@ -32,7 +26,7 @@ public static class RenderingUtility
         if (string.IsNullOrEmpty(layerName))
         {
             Logger.Error("The target Canvas is not assigned to any layer. Please assign a unique layer to the Canvas.");
-            yield break;
+            return null;
         }
 
         Logger.Info($"Canvas is on Layer {canvasLayer} ({layerName})");
@@ -41,8 +35,9 @@ public static class RenderingUtility
         if (canvasRect == null)
         {
             Logger.Error("The Canvas is missing a RectTransform component.");
-            yield break;
+            return null;
         }
+
         float canvasWidthWorld = canvasRect.rect.width / targetCanvas.scaleFactor;
         float canvasHeightWorld = canvasRect.rect.height / targetCanvas.scaleFactor;
 
@@ -52,25 +47,7 @@ public static class RenderingUtility
         rt.Create();
         Logger.Debug("RenderTexture created.");
 
-        Material tempMaterial = new Material(Shader.Find("Hidden/Internal-Colored"));
-        tempMaterial.SetPass(0);
-
-        CameraParameters cameraParams = new CameraParameters
-        {
-            RenderTexture = rt,
-            WorldCamera = null,
-            Viewport = new Rect(0, 0, 1, 1),
-            BackgroundColor = Color.clear,
-            ClearFlags = CameraClearFlags.Color
-        };
-
-        yield return new WaitForEndOfFrame();
-
-        RenderTexture currentRT = RenderTexture.active;
-        RenderTexture.active = rt;
-
-        GL.Clear(true, true, Color.clear);
-
+        // 创建临时相机
         GameObject cameraObj = new GameObject("CanvasCaptureCamera");
         Camera captureCamera = cameraObj.AddComponent<Camera>();
         captureCamera.orthographic = true;
@@ -85,7 +62,13 @@ public static class RenderingUtility
         Logger.Debug($"Capture Camera settings: orthographicSize = {captureCamera.orthographicSize}, position = {captureCamera.transform.position}, aspect = {captureCamera.aspect}");
 
         captureCamera.targetTexture = rt;
+
+        // 渲染相机
         captureCamera.Render();
+
+        // 读取渲染结果
+        RenderTexture currentRT = RenderTexture.active;
+        RenderTexture.active = rt;
 
         Texture2D screenTexture = new Texture2D(canvasWidth, canvasHeight, TextureFormat.RGB24, false);
         screenTexture.ReadPixels(new Rect(0, 0, canvasWidth, canvasHeight), 0, 0);
@@ -93,28 +76,21 @@ public static class RenderingUtility
 
         RenderTexture.active = currentRT;
 
+        // 清理临时资源
         captureCamera.targetTexture = null;
-        Object.Destroy(rt);
-        Object.Destroy(cameraObj);
+        Object.DestroyImmediate(rt);
+        Object.DestroyImmediate(cameraObj);
         Logger.Debug("Temporary camera and RenderTexture destroyed.");
 
-        stopwatch.Stop();
-        Logger.Info($"Image \"{savePath}\" has been successfully rendered and captured in {stopwatch.ElapsedMilliseconds}ms.");
-
+        // 编码为JPEG
         byte[] jpgBytes = screenTexture.EncodeToJPG(jpgQuality);
+        Object.DestroyImmediate(screenTexture);
 
-        Object.Destroy(screenTexture);
+        Logger.Info($"Image has been successfully captured and encoded in {System.Diagnostics.Stopwatch.StartNew().ElapsedMilliseconds}ms.");
 
-        try
-        {
-            File.WriteAllBytes(savePath, jpgBytes);
-            Logger.Info($"Image \"{savePath}\" has been successfully saved in {stopwatch.ElapsedMilliseconds}ms.");
-        }
-        catch (System.Exception ex)
-        {
-            Logger.Error($"Failed to save image \"{savePath}\": {ex.Message}");
-        }
+        return jpgBytes;
     }
+
 
     private class RenderingRunner : MonoBehaviour
     {

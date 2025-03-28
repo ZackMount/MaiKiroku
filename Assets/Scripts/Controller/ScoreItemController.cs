@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using Assets.Scripts.Models;
 using System.IO;
 using Assets.Scripts.Constants;
-using System.Collections.Generic;
 
 public class ScoreItemController : MonoBehaviour
 {
@@ -27,11 +26,7 @@ public class ScoreItemController : MonoBehaviour
     public TextMeshProUGUI Rating;
 
     [Header("DXScore Star")]
-    public GameObject Star5;
-    public GameObject Star4;
-    public GameObject Star3;
-    public GameObject Star2;
-    public GameObject Star1;
+    public GameObject[] DXStars;
 
     [Header("Panel")]
     /// <summary>
@@ -102,50 +97,14 @@ public class ScoreItemController : MonoBehaviour
 
     private void SetDXStar(int index)
     {
-        switch (index) 
+        foreach (var star in DXStars)
         {
-            case 0:
-                Star1.gameObject.SetActive(false);
-                Star2.gameObject.SetActive(false);
-                Star3.gameObject.SetActive(false);
-                Star4.gameObject.SetActive(false);
-                Star5.gameObject.SetActive(false);
-                break;
-            case 1:
-                Star1.gameObject.SetActive(true);
-                Star2.gameObject.SetActive(false);
-                Star3.gameObject.SetActive(false);
-                Star4.gameObject.SetActive(false);
-                Star5.gameObject.SetActive(false);
-                break;
-            case 2:
-                Star1.gameObject.SetActive(false);
-                Star2.gameObject.SetActive(true);
-                Star3.gameObject.SetActive(false);
-                Star4.gameObject.SetActive(false);
-                Star5.gameObject.SetActive(false);
-                break;
-            case 3:
-                Star1.gameObject.SetActive(false);
-                Star2.gameObject.SetActive(false);
-                Star3.gameObject.SetActive(true);
-                Star4.gameObject.SetActive(false);
-                Star5.gameObject.SetActive(false);
-                break;
-            case 4:
-                Star1.gameObject.SetActive(false);
-                Star2.gameObject.SetActive(false);
-                Star3.gameObject.SetActive(false);
-                Star4.gameObject.SetActive(true);
-                Star5.gameObject.SetActive(false);
-                break;
-            case 5:
-                Star1.gameObject.SetActive(false);
-                Star2.gameObject.SetActive(false);
-                Star3.gameObject.SetActive(false);
-                Star4.gameObject.SetActive(false);
-                Star5.gameObject.SetActive(true);
-                break;
+            star.SetActive(false);
+        }
+
+        if (index > 0 && index <= DXStars.Length)
+        {
+            DXStars[index - 1].SetActive(true);
         }
     }
 
@@ -158,9 +117,9 @@ public class ScoreItemController : MonoBehaviour
             return;
         }
 
-        if (ApplicationConstants.jacketSpriteCache.ContainsKey(path))
+        if (ApplicationConstants.JacketSpriteCache.ContainsKey(path))
         {
-            Cover.sprite = ApplicationConstants.jacketSpriteCache[path];
+            Cover.sprite = ApplicationConstants.JacketSpriteCache[path];
             Cover.preserveAspect = false;
             return;
         }
@@ -177,7 +136,7 @@ public class ScoreItemController : MonoBehaviour
                     new Vector2(0.5f, 0.5f)
                 );
 
-                ApplicationConstants.jacketSpriteCache[path] = sprite;
+                ApplicationConstants.JacketSpriteCache[path] = sprite;
 
                 Cover.sprite = sprite;
                 Cover.preserveAspect = false;

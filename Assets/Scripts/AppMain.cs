@@ -3,12 +3,16 @@ using UnityEngine;
 using Assets.Scripts.Constants;
 using Assets.Scripts.Api.Lxns.Managers;
 using Assets.Scripts;
+using System.Text;
+
 
 public class AppMain : MonoBehaviour
 {
     // Start is called before the first frame update
     private bool consoleAllocated = false;
     private Initializer initializer;
+    public Best50QueryManager best50QueryManager;
+
     void Start()
     {
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
@@ -21,7 +25,7 @@ public class AppMain : MonoBehaviour
                 if (!ConsoleHelper.AllocateConsole())
                 {
                     Debug.LogError("Failed to allocate or attach to console. Standard stream redirection may fail.");
-                }
+                } 
             }
         }
         ConsoleHelper.SetConsoleCodePage();
@@ -31,13 +35,14 @@ public class AppMain : MonoBehaviour
         ShowInfo();
 #endif
         // 初始化
-
         initializer = new Initializer();
         initializer.InitializeJacketSprites();
+        initializer.InitializeIconSprites();
+        initializer.InitializePlateSprites();
 
         Logger.Info($"MaiKiroku {ApplicationConstants.Version} has started.");
         Screen.SetResolution(1080, 2400, false);
-        Application.targetFrameRate = 20;
+        Application.targetFrameRate = 25;
         var songManager = SongManager.Instance;
     }
     void ShowInfo()
@@ -51,7 +56,7 @@ public class AppMain : MonoBehaviour
     private void OnDestroy()
     {
 
-        ApplicationConstants.jacketSpriteCache.Clear();
+        ApplicationConstants.JacketSpriteCache.Clear();
         if (consoleAllocated)
         {
 #if UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN

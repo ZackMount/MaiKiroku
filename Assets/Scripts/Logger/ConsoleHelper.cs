@@ -3,9 +3,10 @@ using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using System.Diagnostics;
-
+using Assets.Scripts.Constants;
 public static class ConsoleHelper
 {
+
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
     // Import necessary Win32 API functions
     [DllImport("kernel32.dll", SetLastError = true)]
